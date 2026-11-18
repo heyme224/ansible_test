@@ -2,7 +2,7 @@
 
 
 - name: Git 설치 및 사용자 환경 설정
-  hosts: localhost  #여기 all의 기준은 인벤토리스들 rocky랑 ubuntu
+  hosts: all  #여기 all의 기준은 인벤토리스들 rocky랑 ubuntu
   become: yes
 
 
