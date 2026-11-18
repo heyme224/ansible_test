@@ -1,0 +1,29 @@
+# test03_playbook/install_git.yml
+
+
+- name: Git 설치 및 사용자 환경 설정
+  hosts: localhost  #여기 all의 기준은 인벤토리스들 rocky랑 ubuntu
+  become: yes
+
+
+  tasks:
+    - name: 1. Git 페키지 설치
+      package:
+        name: git
+        state: present
+   
+    - name: 2. user.name 설정
+      git_config:
+        name: user.name
+        value: "heyme224"
+        scope: global
+      become: yes
+      become_user: user1
+   
+    - name: 3. user.email 설정
+      git_config:
+        name: user.email
+        value: "heyme0126@naver.com"
+        scope: global
+      become: yes
+      become_user: user1
