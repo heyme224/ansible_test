@@ -1,0 +1,26 @@
+
+
+- name: rocky nginx 삭제
+  hosts: rocky
+  become: yes
+
+  tasks:
+    - name: 서비스 중지 및 비활성화
+      service: 
+        name: nginx
+        state: stopped
+        enabled: no
+      ignore_errors: yes #이미 삭제되었거나 꺼져있어도 에러없이 진행 되도록
+    - name: nginx 패키지 삭제 #의존성까지 
+      dnf:
+        name: nginx
+        state: absent
+        #autormove: yes
+    - name: 설정 파일, 로그, index.html 삭제
+      file:
+        path: "{{item}}"
+        state: absent
+      loop:
+        - /etc/nginx
+        - /var/log/nginx
+        - /usr/share/nginx/html/index.html

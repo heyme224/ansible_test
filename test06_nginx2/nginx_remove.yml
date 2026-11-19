@@ -1,0 +1,40 @@
+
+
+- name: 모든 OS nginx 삭제
+  hosts: all
+  become: yes
+  
+
+  tasks:
+    - name: 1. Os 별 변수 불러오기
+      include_vars: "vars/{{ ansible_distribution }}.yml"
+
+
+    - name: 2. 서비스 중지 및 비활성화
+      service: 
+        name: nginx
+        state: stopped
+        enabled: no
+      ignore_errors: yes #이미 삭제되었거나 꺼져있어도 에러없이 진행 되도록
+
+    - name: 3-1. Rocky 에서 nginx 삭제 #의존성까지 
+      dnf:
+        name: nginx
+        state: absent
+        autoremove: yes
+      when: ansible_distribution == 'Rocky' # 이 조건이 true일때만 3-1 블록이 실행됨
+
+    - name: 3-2. Ubuntu에서 nginx 삭제
+      apt:
+        name: nginx
+        state: absent # 이건 있으면 삭제 없으면 넘어가라는 뜻, present는 반댓말 있으면 넘어가고 없으면 생성
+      when: ansible_distribution == 'Ubuntu' # 이조건이 true 일때만 3-2 블록 실행
+  
+    - name: 4. 설정 파일, 로그, index.html 삭제
+      file:
+        path: "{{ item }}"
+        state: absent
+      loop:
+        - /etc/nginx
+        - /var/log/nginx
+        - "{{ web_root }}/index.html"
