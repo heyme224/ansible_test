@@ -77,7 +77,7 @@
       become_user: postgres
 
   handlers:
-    - name: restart_postgre
+    - name: restart_postgre #여기에 작성한 이름이 이벤트 명이 된다
       systemd:
         name: postgresql
         state: restarted
