@@ -1,0 +1,22 @@
+---
+- name: Install Git and configure global user settings on Rocky Linux
+  hosts: rocky01          
+  become: yes             
+
+  tasks:
+    - name: Install git package
+      ansible.builtin.dnf:
+        name: git
+        state: present
+
+    - name: Configure git global user.name
+      community.general.git_config:
+        name: user.name
+        scope: global
+        value: "heyme"  
+
+    - name: Configure git global user.email
+      community.general.git_config:
+        name: user.email
+        scope: global
+        value: "heyme51313@gmail.com"

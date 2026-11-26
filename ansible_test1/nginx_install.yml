@@ -1,0 +1,16 @@
+---
+- name: Install and start Nginx on AWS EC2
+  hosts: aws_web
+  become: yes
+
+  tasks:
+    - name: Install nginx package
+      ansible.builtin.package:
+        name: nginx
+        state: present
+
+    - name: Start and enable nginx service
+      ansible.builtin.service:
+        name: nginx
+        state: started
+        enabled: yes

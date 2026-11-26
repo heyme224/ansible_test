@@ -1,7 +1,7 @@
 # test07_postgre/scott_setup.yml
 ---
 - name: postgre 셈플 데이터 적재 (soctt 계정 접속)
-  hosts: 172.16.1.202
+  hosts: 172.16.8.202
   # DB 접속만 하므로 os 정보 수집을 꺼서 실행 속도를 높입니다.
   gather_facts: no
 
